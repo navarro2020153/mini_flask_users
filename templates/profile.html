@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil de {{ user.username|capitalize }}{% endblock %}
+
+{% block content %}
+<h2>Perfil de {{ user.username|capitalize }}</h2>
+
+<p><strong>Usuario:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+
+{% if session.get('user_id') == user.id %}
+<a href="{{ url_for('user_bp.edit_profile', id=user.id) }}" class="button edit">Editar perfil</a>
+    <form method="POST" action="{{ url_for('user_bp.delete_user', id=user.id) }}" style="display:inline;">
+        <button type="submit" onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">
+            Eliminar usuario
+        </button>
+    </form>
+{% endif %}
+{% endblock %}

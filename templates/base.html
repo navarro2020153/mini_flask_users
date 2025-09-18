@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flask App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Barra de navegacion-->
+    <nav>
+        <a href="{{ url_for('user_bp.index') }}">Inicio</a>
+        <a href="{{ url_for('user_bp.register') }}">Registro</a>
+        <a href="{{ url_for('user_bp.login') }}">Login</a>
+        {% if session.get('user_id') %}
+            <a href="{{ url_for('user_bp.profile', id=session['user_id']) }}">Mi perfil</a>
+            <a href="{{ url_for('user_bp.logout') }}">Cerrar sesion</a>
+        {% endif %}
+    </nav>
+
+    <!-- Mensajes de flash -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash-messages">
+          {% for msg in messages %}
+            <li>{{ msg|capitalize }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Contenido dinamico -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
